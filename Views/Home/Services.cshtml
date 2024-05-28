@@ -1,0 +1,19 @@
+﻿@using Web1.Models
+@model List<Web1.Models.DBModels.Service>
+@{
+    ViewData["Title"] = "Услуги цветочного салона FLĒUR";
+}
+<div class="container">
+    <div class="flowers-column">
+        <ul class="flowers-list">
+            @foreach (var service in Model)
+            {
+                <li>
+                    <h3>@service.ServiceName</h3>
+                    <p>@service.ServiceDescription</p>
+                    <p>Цена: @Math.Round(service.ServicePrice,2)</p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

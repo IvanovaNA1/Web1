@@ -1,0 +1,12 @@
+﻿@model List<Web1.Models.DBModels.Product>
+
+@foreach (var flower in Model)
+{
+    <li class="flower-item" data-category="@flower.ProductCategory">
+        <h3>@flower.ProductName</h3>
+        <p>@flower.ProductCategory</p>
+        <img src="~/images/ProductImg/@(flower.ProductNum.ToString().Replace(" ", "")).jpg" data-title="@flower.ProductDescription" height="150px" width="150px" />
+        <p>Цена: @Math.Round(flower.ProductPrice, 2)</p>
+        <button class="buy-button" onclick="addToCart('@flower.ProductName', @flower.ProductPrice)">Купить</button>
+    </li>
+}

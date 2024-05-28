@@ -1,0 +1,37 @@
+﻿@model List<Web1.Models.DBModels.Product>
+<h1 align="center">Добавление продукта</h1>
+@using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="text">Название продукта</label>
+        @Html.TextBox("name", null, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <label for="text">Категория</label>
+        @Html.DropDownList("category", new SelectList(new[] {
+            new SelectListItem { Text = "Букеты", Value = "1" },
+            new SelectListItem { Text = "Композиции", Value = "2" },
+            new SelectListItem { Text = "Розы", Value = "3" },
+            new SelectListItem { Text = "Цветы", Value = "4" }
+        }, "Value", "Text"), new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <label for="number">Стоимость</label>
+        @Html.TextBox("price", null, new { @style = "height: 10px", @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <label for="text">Описание</label>
+        @Html.TextBox("description", null, new { @style = "height: 10px", @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <label for="text">Поставщик</label>
+        @Html.DropDownList("providers", new SelectList(new[] {
+            new SelectListItem { Text = "7Flowers", Value = "1" },
+            new SelectListItem { Text = "SibFlower", Value = "2" },
+            new SelectListItem { Text = "Fantasy Flower", Value = "3" },
+            new SelectListItem { Text = "Dio Flowers", Value = "4" },
+            new SelectListItem { Text = "Buta Flowers", Value = "5" }
+        }, "Value", "Text"), new { @class = "form-control", required = "required" })
+    </div>
+    <button type="submit">Добавить</button>
+}

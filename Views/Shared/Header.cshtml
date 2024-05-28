@@ -1,0 +1,28 @@
+﻿@using Web1.Models.HeaderModels
+<header>
+    <nav>
+        <ul>
+            @foreach (var menuItem in ListData.menuItems)
+            {
+                <li><a asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Text</a></li>
+            }
+        </ul>
+    </nav>
+    <div class="logo">
+        <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.jpg" height="25px" /></a>
+    </div>
+    <div class="exit">
+    <nav align="right">
+        <ul>
+            <li><a asp-controller="Home" asp-action="Contact">КОРЗИНА</a></li>
+        </ul>
+        
+    </nav>  
+    <nav>
+        <ul>
+            <li><a asp-controller="Authorize" asp-action="Logout"><img src="~/images/exit.png" height="25px" /></a></li>
+        </ul>
+    </nav>
+    </div>
+    
+</header>

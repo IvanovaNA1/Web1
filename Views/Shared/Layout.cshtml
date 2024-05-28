@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div>
+        @await Html.PartialAsync("Header")
+    </div>
+    
+    <div>
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+    <div>
+        @await Html.PartialAsync("Footer")
+    </div>
+</body>
+</html>
+
