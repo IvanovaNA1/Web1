@@ -11,6 +11,7 @@ namespace Web1.Controllers
         public AdminController(MyDbContext context)
         {
             Context = context;
+            Context.Category.Load();
         }
         [HttpGet]
         public IActionResult AddProduct()
@@ -20,13 +21,19 @@ namespace Web1.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(IFormCollection form)
         {
-            int maxProductNum = await Context.Product.MaxAsync(p => p.ProductNum);
+            //int maxProductNum = await Context.Product.MaxAsync(p => p.ProductNum);
+            int maxProductNum = 1;
             int newProductNum = maxProductNum + 1;
-
+            string fl = form["category"].ToString();
+            Category categor = await Context.Category.FirstOrDefaultAsync(q => q.CategoryName == fl);
+            if(categor == null)
+            {
+                throw new Exception("is null");
+            }
             var newProduct = new Product
             {
                 ProductName = form["name"],
-                ProductCategory = Context.Category.FirstOrDefault(q => q.CategoryName == form["category"]),
+                ProductCategory = categor,
                 ProductPrice = Convert.ToDecimal(form["price"]),
                 ProductDescription = form["description"],
                 ProductNum = newProductNum,

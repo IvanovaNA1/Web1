@@ -27,7 +27,12 @@ namespace Web1.Models
         public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+
+            Category.Add(new Category() { CategoryName = "Роза" });
+            Category.Add(new Category() { CategoryName = "Цветы" });
+
+            Database.EnsureCreated();
         }
     }
 }
