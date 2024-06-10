@@ -9,5 +9,6 @@ namespace Web1.Models.DBModels
         public int OrderID { get; set; }
         public string ProductName { get; set; }
         public int ProductCount { get; set; }
+        public Order Order { get; set; }
     }
 }

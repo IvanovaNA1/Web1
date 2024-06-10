@@ -9,7 +9,7 @@
             <!-- Вывод выбранных продуктов -->
             @foreach (var product in Model)
             {
-                <li>@product.ProductName - Цена: @product.ProductPrice</li>
+                <li>@product.ProductName</li>
             }
         </ul>
         <form method="post" action="/Home/PlaceOrder">
