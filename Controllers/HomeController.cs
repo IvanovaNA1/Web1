@@ -128,20 +128,20 @@ namespace Web1.Controllers
             var userName = User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
             var user = await Context.User.FirstOrDefaultAsync(u => u.UserLogin == userName);
 
-            // Найти незавершенный заказ пользователя
+          
             var order = await Context.Order
                 .Include(o => o.OrderProducts)
                 .FirstOrDefaultAsync(o => o.UserID == user.UserID && !o.IsCompleted);
 
-            // Если заказа нет, создать новый
+        
             if (order == null)
             {
                 order = new Order
                 {
                     UserID = user.UserID,
-                    DeliveryID = 1, // ID доставки по умолчанию
+                    DeliveryID = 1, 
                     OrderDate = DateTime.Now,
-                    IsCompleted = false // Добавляем поле, чтобы отметить заказ как незавершенный
+                    IsCompleted = false 
                 };
 
                 try
@@ -156,7 +156,7 @@ namespace Web1.Controllers
                 }
             }
 
-            // Проверить, есть ли уже такой продукт в заказе
+      
             if (order != null && order.OrderProducts != null)
             {
                 var existingProduct = order.OrderProducts.FirstOrDefault(op => op.ProductName == productName);
