@@ -1,5 +1,19 @@
-﻿@using Web1.Models
-@model List<Web1.Models.DBModels.Order>
-@{
-    ViewData["Title"] = "Ваша корзина";
-}
+﻿@model List<Web1.Models.DBModels.Product>
+
+<h1>Корзина</h1>
+
+<div class="container">
+    <div class="cart-column">
+        <h2>Выбранные продукты</h2>
+        <ul class="cart-list">
+            <!-- Вывод выбранных продуктов -->
+            @foreach (var product in Model)
+            {
+                <li>@product.ProductName - Цена: @product.ProductPrice</li>
+            }
+        </ul>
+        <form method="post" action="/Home/PlaceOrder">
+            <button type="submit">Оформить заказ</button>
+        </form>
+    </div>
+</div>

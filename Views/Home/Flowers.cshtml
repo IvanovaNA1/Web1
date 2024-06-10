@@ -8,6 +8,11 @@
     <div class="category-column">
         <ul>
             <form asp-action="FilterFlowers" asp-controller="Home" method="get" id="filterForm">
+                <label for="sortBy">Сортировка</label>
+                <select name="sortBy" id="sortBy">
+                    <option value="asc">По возрастанию цены</option>
+                    <option value="desc">По убыванию цены</option>
+                </select>
                 <label for="category">Категория</label>
                 <select name="category" id="category">
                     <option value="">Все</option>
@@ -16,17 +21,13 @@
                         <option value="@category">@category</option>
                     }
                 </select>
-
-                <label for="sortBy">Сортировка</label>
-                <select name="sortBy" id="sortBy">
-                    <option value="asc">По возрастанию</option>
-                    <option value="desc">По убыванию</option>
-                </select>
-
                 <button type="submit">Применить</button>
             </form>
-
+            @if(User.IsInRole("1"))
+            {
             <li><a asp-controller="Admin" asp-action="AddProduct">Добавить товар</a></li>
+            <li><a asp-controller="Admin" asp-action="AddService">Добавить услугу</a></li>
+            }
         </ul>
     </div>
     <div class="flowers-column">
@@ -38,12 +39,56 @@
                     <p>@flower.ProductCategory</p>
                     <img src="~/images/ProductImg/@(flower.ProductNum.ToString().Replace(" ", "")).jpg" data-title="@flower.ProductDescription" height="150px" width="150px" />
                     <p>Цена: @Math.Round(flower.ProductPrice, 2)</p>
-                    <button class="buy-button" onclick="addToCart('@flower.ProductName', @flower.ProductPrice)">Купить</button>
+                    @if (User.IsInRole("3"))
+                    {
+                        <button class="buy-button" onclick="addToCart('@flower.ProductName', '@flower.ProductPrice')">Добавить в корзину</button>
+                    }
+                    @if (User.IsInRole("1")){
+                        <div align = "left">
+                            <form asp-action="DeleteProduct" asp-controller="Admin" method="post" style=" display:inline; background:none; border:none; color:none; margin-left:60px; margin-right:40px;">
+                                <input type="hidden" name="productName" value="@flower.ProductName" />
+                                <button type="submit" class="deleteButton"><img src="~/images/delete.png" width="30px"></button>
+                            </form>
+                            <a asp-controller="Admin" asp-action="EditProduct" asp-route-productNum="@flower.ProductNum"><img src="~/images/edit.png" width="30px"/></a>
+                        </div>
+                    }
                 </li>
             }
         </ul>
     </div>
 </div>
+
+<style>
+    .deleteButton{
+        background-color:transparent;
+    }
+    .deleteButton:hover{
+        background-color:transparent;
+    }
+</style>
+
+<script>
+    function addToCart(productName, unitPrice) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/Home/AddToCart';
+
+        var productNameField = document.createElement('input');
+        productNameField.type = 'hidden';
+        productNameField.name = 'productName';
+        productNameField.value = productName;
+        form.appendChild(productNameField);
+
+        var unitPriceField = document.createElement('input');
+        unitPriceField.type = 'hidden';
+        unitPriceField.name = 'unitPrice';
+        unitPriceField.value = unitPrice;
+        form.appendChild(unitPriceField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 
 
 

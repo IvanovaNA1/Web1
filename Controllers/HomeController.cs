@@ -14,28 +14,8 @@ namespace Web1.Controllers
         {
             Context = context;
         }
-        public void IsRole()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            int? userRole = null;
-            if (userId != null)
-            {
-                var user = Context.User.FirstOrDefault(u => u.UserID == Convert.ToInt32(userId));
-                if (user != null)
-                {
-                    var userAccount = Context.UserAccount.FirstOrDefault(u => u.UserLogin == user.UserAccount);
-                    if (userAccount != null)
-                    {
-                        userRole = userAccount.UserRole;
-                    }
-                }    
-            }
-            ViewBag.UserRole = userRole;
-        }
-
         public IActionResult Index()
         {
-            IsRole();
             if (User.Identity!.IsAuthenticated)
             {
                 return View();
@@ -44,25 +24,17 @@ namespace Web1.Controllers
             {
                 return RedirectToAction("Login", "Authorize");
             }
-
         }
+       
         [HttpGet]
         public async Task<IActionResult> Flowers()
         {
-            var userLogin = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var userRole = await Context.UserAccount
-                                .Where(a => a.UserLogin == userLogin)
-                                .Select(a => a.UserRole)
-                                .FirstOrDefaultAsync();
             var products = await Context.Product.ToListAsync();
             ViewBag.Categories = await Context.Product
                                                .Select(p => p.ProductCategory)
                                                .Distinct()
                                                .ToListAsync();
-            if (userRole == 1)
-            {
-                return View("About");
-            }
+            
             return View("Flowers", products);
         }
         public async Task<IActionResult> FilterFlowers(string category, string sortBy)
@@ -72,9 +44,8 @@ namespace Web1.Controllers
                 return RedirectToAction("Flowers");
             }
 
-            var query = Context.Product.Where(p => p.ProductCategory.ToString() == category);
+            var query = Context.Product.Where(p => p.ProductCategory == category);
 
-            // Добавляем сортировку по цене
             switch (sortBy)
             {
                 case "asc":
@@ -83,7 +54,6 @@ namespace Web1.Controllers
                 case "desc":
                     query = query.OrderByDescending(p => p.ProductPrice);
                     break;
-                // По умолчанию сортируем по возрастанию
                 default:
                     query = query.OrderBy(p => p.ProductPrice);
                     break;
@@ -108,6 +78,92 @@ namespace Web1.Controllers
         {
             var service = await Context.Service.ToListAsync();
             return View(service);
+        }
+        public async Task<IActionResult> Orders()
+        {
+            var orders = await Context.Order
+                .Include(u => u.User)
+                .ToListAsync();
+
+            var viewModel = new List<OrderViewModel>();
+
+            foreach (var order in orders)
+            {
+                var orderViewModel = new OrderViewModel
+                {
+                    OrderID = order.OrderID,
+                    UserName = order.User.UserName,
+                    UserPhone = order.User.UserPhone,
+                    OrderDate = order.OrderDate,
+                    OrderProductsList = await Context.OrderProducts.Where(sl => sl.OrderID == order.OrderID).ToListAsync(),
+                    OrderServicesList = await Context.OrderServices.Where(sl => sl.OrderID == order.OrderID).ToListAsync()
+
+                };
+
+                viewModel.Add(orderViewModel);
+            }
+
+            return View(viewModel);
+        }
+        //public async Task FindOrder()
+        //{
+        //    var userName = User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+        //    var user = await Context.User.FirstOrDefaultAsync(u => u.UserLogin == userName);
+
+        //    if (user != null)
+        //    {
+        //        var userOrders = await Context.Order
+        //                                      .Where(o => o.UserID == user.UserID)
+        //                                      .ToListAsync();
+        //        ViewBag.UserOrders = userOrders.Count;
+        //    }
+        //    else
+        //    {
+        //        ViewBag.UserOrders = 0;
+        //    }
+        //}
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(string productName, double unitPrice)
+        {
+            var userName = User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType);
+            var user = await Context.User.FirstOrDefaultAsync(u => u.UserLogin == userName);
+
+            var order = new Order
+            {
+                UserID = user.UserID,
+                DeliveryID = 1, 
+                OrderDate = DateTime.Now
+            };
+            try
+            {
+                Context.Order.Add(order);
+                Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "error in order " + ex.Message);
+            }
+            var model = new OrderProducts
+            {
+                ProductName = productName,
+                ProductCount = 1,
+                OrderID = order.OrderID,
+            };
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Context.OrderProducts.Add(model);
+                    Context.SaveChanges();
+                    //await FindOrder();
+                    return RedirectToAction("Order", "Home");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "error in orderProducts " + ex.Message);
+                }
+            }
+            return View();
         }
 
     }

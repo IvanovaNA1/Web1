@@ -22,8 +22,8 @@ header {
     display:flex;
 }
 .exit li{
-    margin-right:30px;
-    margin-left:20px;
+    margin-right:20px;
+    margin-left:10px;
 }
 nav ul li {
         display: inline;
@@ -60,7 +60,11 @@ main li {
     text-decoration: none;
     color: darkslategrey;
     list-style:none;
-    font-size:14pt;
+    margin-left:20px;
+    padding:7px;
+    font-size:13pt;
+    border: solid 2px #ddd;
+    border-radius: 7px;
 }
 .category-column ul{
     margin:0px;
@@ -80,38 +84,34 @@ main li {
 #filterForm {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     margin: 0px;
-    font-size:13pt;
-    margin-bottom:30px;
+    font-size:12pt;
+    margin-bottom:20px;
+    background-color:transparent;
+    border:none;
 }
 
 label {
     margin-bottom: 5px;
 }
 
-select, button {
+select {
     margin-bottom: 10px;
-    appearance: none;
+    font-size:11pt;
 }
 .flowers-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    margin-bottom:40px;
 }
     .flowers-list li {
         width: calc(30% - 10px);
         margin-bottom: 25px;
+        margin-right:20px;
         padding: 10px;
         border: 2px solid #ccc;
         border-radius:7px;
     }
-    /*.flowers-list img {
-        max-width: 100%;
-        height: auto;
-        border: 1px solid #ccc;
-        cursor: pointer;
-    }*/
     /* Стили для формы */
     form {
         max-width: 400px;
@@ -126,13 +126,10 @@ select, button {
         margin-bottom: 15px;
     }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+
 
 input[type="text"],
-input[type="email"],
+input[type="password"],
 textarea {
     width: 100%;
     padding: 8px;
@@ -143,16 +140,18 @@ textarea {
 }
 
 button {
-    background-color: #007BFF;
-    color: #fff; 
-    padding: 10px 15px;
+    background-color: royalblue;
+    color: #fff;
+    font-family:Verdana;
+    font-size:11pt;
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     cursor: pointer;
+    padding:7px;
 }
 
 button:hover {
-        background-color: #0056b3;
+        background-color: dodgerblue;
 }
 /*Footer Style*/
 footer {
@@ -225,5 +224,89 @@ footer {
     text-align:justify;
     width:70%;
 }
+/*TEAM STYLE*/
+.user-container {
+    margin: 20px auto;
+    display:flex;
+}
+.users-table {
+    margin-left: 100px;
+    width:700px;
+}
+.add-users{
+    margin-left:50px;
+    width:400px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
 
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
 
+.form-control {
+    width: 100%;
+    padding:10px;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.scroll-table-body {
+    height: 410px;
+    overflow-x: auto;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    border-bottom: 6px solid #eee;
+}
+.scroll-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0px;
+    overflow:auto;
+}
+
+.scroll-table th {
+    font-weight: bold;
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    background: #d8d8d8;
+    font-size: 14px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.scroll-table td {
+    text-align: left;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: top;
+}
+    .scroll-table thead{
+        position:sticky;
+        top:0;
+    }
+
+    .scroll-table th {
+        background-color: #f8f8f8;
+    }
+/* Стили для скролла */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+}

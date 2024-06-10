@@ -1,5 +1,5 @@
 ﻿@using Web1.Models
-@model Web1.Models.DBModels.UserAccount
+@model Web1.Models.RegistrationViewModel
 
 <h2 align = "center">Регистрация</h2>
 
@@ -7,6 +7,16 @@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     @Html.ValidationSummary(true)
     <div>
+        <div>
+            <label asp-for="UserName">Ваше имя</label><br />
+            <input type="text" asp-for="UserName" />
+            <span asp-validation-for="UserName" />
+        </div>
+        <div>
+            <label asp-for="UserPhone">Номер телефона</label><br />
+            <input type="text" asp-for="UserPhone" />
+            <span asp-validation-for="UserPhone" />
+        </div>
         <div>
             <label asp-for="UserLogin">Введите логин</label><br />
             <input type="text" asp-for="UserLogin" />
@@ -17,12 +27,13 @@
             <input asp-for="UserPassword" />
             <span asp-validation-for="UserPassword" />
         </div>
-        <div>
-            <input type="submit" value="Регистрация" />
-            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Login", "Authorize")'">Войти</button>
-        </div>
-        <div>
-            <p ></p>
+        <div style="display:flex;">
+            <div style="margin-right:30px; margin-left:90px;">
+            <button type="submit" >Регистрация</button>
+            </div>
+            <div align="right">
+            <button type="button" onclick="location.href='@Url.Action("Login", "Authorize")'">Войти</button>
+            </div>
         </div>
     </div>
 </form>

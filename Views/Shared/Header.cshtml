@@ -2,22 +2,49 @@
 <header>
     <nav>
         <ul>
-            @foreach (var menuItem in ListData.menuItems)
+            @if (User.IsInRole("3"))
             {
-                <li><a asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Text</a></li>
+                @foreach (var menuItem in ListData.ClientMenuItems)
+                {
+                    <li><a asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Text</a></li>
+                }
+
             }
+            @if (User.IsInRole("2"))
+            {
+                @foreach (var menuItem in ListData.EmployeeMenuItems)
+                {
+                    <li><a asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Text</a></li>
+                }
+            }
+            @if (User.IsInRole("1")){
+                @foreach (var menuItem in ListData.AdminMenuItems)
+                {
+                    <li><a asp-controller="@menuItem.Controller" asp-action="@menuItem.Action">@menuItem.Text</a></li>
+                }
+            }
+
         </ul>
     </nav>
     <div class="logo">
         <a asp-action="Index" asp-controller="Home"><img src="~/images/logo.jpg" height="25px" /></a>
     </div>
     <div class="exit">
-    <nav align="right">
-        <ul>
-            <li><a asp-controller="Home" asp-action="Contact">КОРЗИНА</a></li>
-        </ul>
-        
-    </nav>  
+        @if (User.IsInRole("3"))
+        {
+            <nav align="right">
+                <ul>
+                    <li><a asp-controller="Cart" asp-action="CartList">КОРЗИНА</a></li>
+                </ul>
+            </nav>}
+        @if (User.IsInRole("2") | User.IsInRole("3"))
+        {
+            <nav align="right">
+                <ul>
+                    <li><a asp-controller="Authorize" asp-action="Profile"><img src="~/images/profile.jpg" height="25px" /></a></li>
+                </ul>
+            </nav>
+        }
     <nav>
         <ul>
             <li><a asp-controller="Authorize" asp-action="Logout"><img src="~/images/exit.png" height="25px" /></a></li>

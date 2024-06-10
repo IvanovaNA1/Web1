@@ -1,6 +1,6 @@
 ﻿@model List<Web1.Models.DBModels.Product>
 <h1 align="center">Добавление продукта</h1>
-@using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post))
+@using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group">
         <label for="text">Название продукта</label>
@@ -9,10 +9,10 @@
     <div class="form-group">
         <label for="text">Категория</label>
         @Html.DropDownList("category", new SelectList(new[] {
-            new SelectListItem { Text = "Букеты", Value = "1" },
-            new SelectListItem { Text = "Композиции", Value = "2" },
-            new SelectListItem { Text = "Розы", Value = "3" },
-            new SelectListItem { Text = "Цветы", Value = "4" }
+            new SelectListItem { Text = "Букеты", Value = "Букеты" },
+            new SelectListItem { Text = "Композиции", Value = "Композиции" },
+            new SelectListItem { Text = "Розы", Value = "Розы" },
+            new SelectListItem { Text = "Цветы", Value = "Цветы" }
         }, "Value", "Text"), new { @class = "form-control", required = "required" })
     </div>
     <div class="form-group">
@@ -32,6 +32,10 @@
             new SelectListItem { Text = "Dio Flowers", Value = "4" },
             new SelectListItem { Text = "Buta Flowers", Value = "5" }
         }, "Value", "Text"), new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        <label for="image">Изображение</label>
+        <input type="file" name="image" class="form-control" />
     </div>
     <button type="submit">Добавить</button>
 }

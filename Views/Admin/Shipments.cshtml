@@ -1,0 +1,56 @@
+﻿@model List<Web1.Models.ShipmentViewModel>
+@{
+    ViewData["Title"] = "Поставки";
+}
+<h1 align="center">Поставки в магазин</h1>
+
+<div class="shipments-table">
+    <div class="scroll-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Поставки</th>
+                    <th>Поставщик</th>
+                    <th>Склад</th>
+                    <th>Дата поставки</th>
+                    <th>Список поставки</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var shipmentViewModel in Model)
+                {
+                    <tr>
+                        <td>@shipmentViewModel.ShipmentID</td>
+                        <td>@shipmentViewModel.ProviderName</td>
+                        <td>@shipmentViewModel.WarehouseName</td>
+                        <td>@shipmentViewModel.ShipmentDate.ToShortDateString()</td>
+                        <td>
+                            <select>
+                                @foreach (var shipmentList in shipmentViewModel.ShipmentLists)
+                                {
+                                    <option value="@shipmentList.ProductName">@shipmentList.ProductName - @shipmentList.ProductCount</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<style>
+    .shipments-table{
+        margin: 30px 100px 0 100px;
+        width: auto;
+    }
+
+        .shipments-table select{
+            width: 100%;
+        }
+    .details {
+        background-color: #f9f9f9;
+    }
+</style>
+

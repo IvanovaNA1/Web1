@@ -1,0 +1,106 @@
+﻿@using Web1.Models
+@model List<Web1.Models.DBModels.User>
+@{
+    ViewData["Title"] = "Команда";
+}
+
+<div class="user-container">
+    <div class="add-users">
+        <h2>Добавить нового пользователя</h2>
+        <form asp-action="AddUser" asp-controller="Admin" method="post">
+            <div class="form-group">
+                <label for="UserName">Имя пользователя</label>
+                <input type="text" name="UserName" id="UserName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="UserPhone">Телефон </label>
+                <input type="text" name="UserPhone" id="UserPhone" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="UserLogin">Логин </label>
+                <input type="text" name="UserLogin" id="UserLogin" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="UserPassword">Пароль </label>
+                <input type="text" name="UserPassword" id="UserPassword" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="RoleID">Роль пользователя</label>
+                <select name="RoleID" id="RoleID" class="form-control">
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <option value="@role.Value">@role.Text</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+        </form>
+    </div>
+    
+    <div class="users-table">
+        <label for="roleFilter">Фильтр по роли</label>
+        <select id="roleFilter" class="form-control" onchange="filterUsersByRole()">
+            <option value="">Все роли</option>
+            @foreach (var role in ViewBag.Roles)
+                {
+                    <option value="@role.Value">@role.Text</option>
+                }
+        </select>
+        <div class="scroll-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Имя пользователя</th>
+                        <th>Логин</th>
+                        <th>Роль</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+            </table>
+        
+            <div class="scroll-table-body">
+                <table>
+                <tbody id="usersTableBody">
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            <td>@user.UserLogin</td>
+                            <td>@user.Role.RoleName</td>
+                            <td>
+                                <form asp-action="DeleteUser" asp-controller="Admin" method="post" style="display:inline;">
+                                    <input type="hidden" name="userId" value="@user.UserID" />
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+</div>
+<script>
+function filterUsersByRole() {
+    var roleFilter = document.getElementById("roleFilter").value;
+    var rows = document.getElementById("usersTableBody").getElementsByTagName("tr");
+
+    for (var i = 0; i < rows.length; i++) {
+        var roleCell = rows[i].getElementsByTagName("td")[2];
+        if (roleFilter === "" || roleCell.textContent === roleFilter) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+}
+</script>
+<style>
+    .scroll-table th{
+        padding:10px 45px;
+        border-left:none;
+        border-right:none;
+    }
+</style>
+

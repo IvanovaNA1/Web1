@@ -1,0 +1,44 @@
+﻿@model List<Web1.Models.OrderViewModel>
+@{
+    ViewData["Title"] = "Заказы";
+}
+<h1 align = "center">Заказы</h1>
+
+<div class="shipments-table">
+    <div class="scroll-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>№ Заказа</th>
+                    <th>Клиент</th>
+                    <th>Номер</th>
+                    <th>Дата заказа</th>
+                    <th>Состав заказа</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderViewModel in Model)
+                {
+                    <tr>
+                        <td>@orderViewModel.OrderID</td>
+                        <td>@orderViewModel.UserName</td>
+                        <td>@orderViewModel.UserPhone</td>
+                        <td>@orderViewModel.OrderDate.ToShortDateString()</td>
+                        <td>
+                            <select>
+                                @foreach (var orderProductsList in orderViewModel.OrderProductsList)
+                                {
+                                    <option value="@orderProductsList.ProductName">@orderProductsList.ProductName - @orderProductsList.ProductCount</option>
+                                }
+                                @foreach (var orderServicesList in orderViewModel.OrderServicesList)
+                                {
+                                    <option value="@orderServicesList.ServiceName">@orderServicesList.ServiceName - @orderServicesList.ServiceCount</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

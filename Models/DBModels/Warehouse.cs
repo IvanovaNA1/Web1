@@ -7,5 +7,6 @@ namespace Web1.Models.DBModels
         [Key]public int WarehouseID { get; set; }
         public string WarehouseName { get; set; }
         public string WarehouseAddress { get; set; }
+        public ICollection<Shipment> Shipments { get; set; }
     }
 }

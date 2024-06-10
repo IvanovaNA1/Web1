@@ -7,5 +7,6 @@ namespace Web1.Models.DBModels
         [Key]public int ProviderID { get; set; }
         public string ProviderName { get; set; }
         public string ProviderEmail { get; set; }
+        public ICollection<Shipment> Shipments { get; set; }
     }
 }

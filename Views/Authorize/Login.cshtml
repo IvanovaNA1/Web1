@@ -1,5 +1,5 @@
 ﻿@using Web1.Models
-@model Web1.Models.DBModels.UserAccount
+@model Web1.Models.LoginViewModel
 <h2 align = "center">Вход на сайт</h2>
 
 <form asp-action="Login" asp-controller="Authorize" asp-anti-forgery="true">
@@ -15,9 +15,13 @@
             <input asp-for="UserPassword" type="password"/>
             <span asp-validation-for="UserPassword" />
         </div>
-        <div class="form-group">
-            <input type="submit" value="Войти" class="btn" />
-            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Register", "Authorize")'">Регистрация</button>
+        <div style="display:flex;">
+            <div style="margin-right:30px; margin-left:90px;">
+            <button type="submit" value="Войти" class="btn" >Войти</button>
+            </div>
+            <div align="right">
+            <button type="button"  onclick="location.href='@Url.Action("Register", "Authorize")'">Регистрация</button>
+            </div>
         </div>
     </div>
 </form>
