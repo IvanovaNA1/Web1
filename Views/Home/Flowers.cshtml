@@ -1,4 +1,4 @@
-﻿@using Web1.Models
+﻿﻿@using Web1.Models
 @model List<Web1.Models.DBModels.Product>
 @{
     ViewData["Title"] = "Букеты в салоне цветов FLĒUR";
@@ -23,10 +23,10 @@
                 </select>
                 <button type="submit">Применить</button>
             </form>
-            @if(User.IsInRole("1"))
+            @if (User.IsInRole("1"))
             {
-            <li><a asp-controller="Admin" asp-action="AddProduct">Добавить товар</a></li>
-            <li><a asp-controller="Admin" asp-action="AddService">Добавить услугу</a></li>
+                <li><a asp-controller="Admin" asp-action="AddProduct">Добавить товар</a></li>
+                <li><a asp-controller="Admin" asp-action="AddService">Добавить услугу</a></li>
             }
         </ul>
     </div>
@@ -43,13 +43,14 @@
                     {
                         <button class="buy-button" onclick="addToCart('@flower.ProductName', '@flower.ProductPrice')">Добавить в корзину</button>
                     }
-                    @if (User.IsInRole("1")){
-                        <div align = "left">
+                    @if (User.IsInRole("1"))
+                    {
+                        <div align="left">
                             <form asp-action="DeleteProduct" asp-controller="Admin" method="post" style=" display:inline; background:none; border:none; color:none; margin-left:60px; margin-right:40px;">
                                 <input type="hidden" name="productName" value="@flower.ProductName" />
                                 <button type="submit" class="deleteButton"><img src="~/images/delete.png" width="30px"></button>
                             </form>
-                            <a asp-controller="Admin" asp-action="EditProduct" asp-route-productNum="@flower.ProductNum"><img src="~/images/edit.png" width="30px"/></a>
+                            <a asp-controller="Admin" asp-action="EditProduct" asp-route-productNum="@flower.ProductNum"><img src="~/images/edit.png" width="30px" /></a>
                         </div>
                     }
                 </li>
@@ -59,12 +60,13 @@
 </div>
 
 <style>
-    .deleteButton{
-        background-color:transparent;
+    .deleteButton {
+        background-color: transparent;
     }
-    .deleteButton:hover{
-        background-color:transparent;
-    }
+
+        .deleteButton:hover {
+            background-color: transparent;
+        }
 </style>
 
 <script>

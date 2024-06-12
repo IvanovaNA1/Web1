@@ -1,15 +1,32 @@
-﻿@model List<Web1.Models.DBModels.Product>
-
-<h1>Корзина</h1>
-
+﻿﻿@using Web1.Models﻿
+@model List<Web1.Models.DBModels.Product>
+@{
+    ViewData["Title"] = "Корзина";
+}
+<h1 align = "center">Корзина</h1>
+<h2 align="center">Общая сумма заказа: @ViewBag.TotalAmount</h2>
 <div class="container">
-    <div class="cart-column">
-        <h2>Выбранные продукты</h2>
-        <ul class="cart-list">
-            <!-- Вывод выбранных продуктов -->
+    <div class="flowers-column" align ="center">
+        <ul class="flowers-list">
             @foreach (var product in Model)
             {
-                <li>@product.ProductName - Цена: @product.ProductPrice</li>
+                <li>
+                    <h3>@product.ProductName</h3>
+                    <p>@ViewBag.ProductCountList[product.ProductName] × @product.ProductPrice
+                        <form method="post" action="/Home/IncreaseProductCount" style="display:inline;">
+                            <input type="hidden" name="productName" value="@product.ProductName" />
+                            <button type="submit"><strong>+</strong></button>
+                        </form>
+                        <form method="post" action="/Home/DecreaseProductCount" style="display:inline;">
+                            <input type="hidden" name="productName" value="@product.ProductName" />
+                            <button type="submit"><strong>-</strong></button>
+                        </form>
+                    </p>
+                    <form method="post" action="/Home/RemoveFromCart" style="display:inline;">
+                        <input type="hidden" name="productName" value="@product.ProductName" />
+                        <button type="submit">Удалить</button>
+                    </form>
+                </li>
             }
         </ul>
         <form method="post" action="/Home/PlaceOrder">
@@ -17,3 +34,32 @@
         </form>
     </div>
 </div>
+<style>
+    .flowers-list {
+        display: math;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+    }
+
+        .flowers-list li {
+            width: auto;
+            margin-bottom: 5px;
+            margin-right: 20px;
+            padding: 0px;
+            border: 2px solid #fff;
+            display: ruby-text;
+        }
+    form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 0px;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+</style>
